@@ -1,0 +1,17 @@
+#!/bin/sh
+
+file_path='../../README.md'
+max_characters=1000
+
+number_of_characters=$(wc -m "$file_path" | awk '{print $1}')
+
+
+if [[ $number_of_characters -ge $max_characters ]]; then
+
+  exit 0
+else
+
+  echo "README.md must have at least $max_characters characters. Please fill it before pushing your changes..."
+
+  exit 1
+fi

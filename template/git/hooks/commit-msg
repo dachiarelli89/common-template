@@ -1,0 +1,19 @@
+#!/bin/sh
+
+types='revert|build|ci|docs|feat|fix|perf|refactor|style|test|chore|BREAKING CHANGE'
+min_length=1
+max_length=200
+msg=$(head -1 $1)
+
+regexp="^($types)(\(.+\))?: .{$min_length,$max_length}$"
+
+
+if [[ ! $msg =~ $regexp ]]; then
+  printf '\n\e[1m\e[31m[INVALID COMMIT MESSAGE]\n'
+  printf '\e[1mA valid message must be something like --> VALID_TYPE: message\n'
+  printf '\e[1mValid types:\e[0m \e[34m%s\033[0m\n' "$types"
+  printf '\e[1mMax length (first line):\e[0m \e[34m%s\033[0m\n' "$max_length"
+  printf '\e[1mMin length (first line):\e[0m \e[34m%s\033[0m\n' "$min_length"
+
+  exit 1
+fi
